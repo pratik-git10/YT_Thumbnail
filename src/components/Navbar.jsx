@@ -62,7 +62,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <div className="relative group">
                 <button className="rounded-full size-8 bg-white/20 border border-white/10">
-                  {user?.name.charAt(0).toUpperCase()}
+                  {(user?.name?.[0] || user?.email?.[0])?.toUpperCase()}
                 </button>
 
                 <div className="absolute hidden group-hover:block right-0 pt-3">

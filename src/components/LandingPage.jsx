@@ -15,6 +15,7 @@ import {
   Instagram,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 // 2. Hero Component
 const Hero = () => {
@@ -56,11 +57,11 @@ const Hero = () => {
 
         {/* Hero Visual */}
         <div className="relative max-w-5xl mx-auto mt-12">
-          <div className="absolute -inset-1 bg-linear-to-r from-blue-100 to-indigo-100 rounded-2xl blur opacity-30"></div>
-          <div className="relative bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center">
+          <div className="absolute -inset-1  rounded-2xl blur opacity-30"></div>
+          <div className="relative rounded-2xl shadow-2xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center">
             {/* Simulation of Interface */}
             <div className="text-slate-500 text-sm">
-              [Application Interface Demo Video Placeholder]
+              <img src="/image.png" alt="" />
             </div>
           </div>
         </div>
@@ -159,6 +160,8 @@ const Features = () => {
 
 // 5. Pricing Component
 const Pricing = () => {
+  const { isLoggedIn } = useAuth();
+
   const [isAnnual, setIsAnnual] = useState(true);
 
   return (
@@ -224,9 +227,11 @@ const Pricing = () => {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
-              Start Free Trial
-            </button>
+            <Link to={isLoggedIn ? "/pricing" : "/login"}>
+              <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
+                Start Free Trial
+              </button>
+            </Link>
           </div>
 
           {/* Pro Plan (Highlighted) */}
@@ -261,9 +266,11 @@ const Pricing = () => {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-lg shadow-blue-900/20">
-              Get Started
-            </button>
+            <Link to={isLoggedIn ? "/pricing" : "/login"}>
+              <button className="w-full py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-lg shadow-blue-900/20">
+                Get Started
+              </button>
+            </Link>
           </div>
 
           {/* Agency Plan */}
@@ -295,9 +302,11 @@ const Pricing = () => {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
-              Contact Sales
-            </button>
+            <Link to={"/contact"}>
+              <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
+                Contact Sales
+              </button>
+            </Link>
           </div>
         </div>
       </div>
