@@ -1,7 +1,11 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [state, setState] = useState("login");
+
+  const { user, login, signup } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -11,7 +15,19 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (state === "login") {
+      login(formData);
+    } else {
+      signup(formData);
+    }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

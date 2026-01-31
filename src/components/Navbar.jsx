@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Generate", href: "/generate" },
-  { name: "My Generation", href: "/my-generation", isProtected: false },
+  { name: "My Generation", href: "/my-generation", isProtected: true },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -62,7 +62,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <div className="relative group">
                 <button className="rounded-full size-8 bg-white/20 border border-white/10">
-                  {user?.email?.charAt(0).toUpperCase()}
+                  {user?.name.charAt(0).toUpperCase()}
                 </button>
 
                 <div className="absolute hidden group-hover:block right-0 pt-3">

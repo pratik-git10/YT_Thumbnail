@@ -1,10 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AspectRatio from "../components/AspectRatio";
 import StyleSelector from "../components/StyleSelector";
 import ColorScheme from "../components/ColorScheme";
 import PreviewPanel from "../components/Previewpanel";
-import { dummyThumbnails } from "../assets/assets/assets";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import api from "../configs/api";
 
 const colorSchemes = [
   { id: "vibrant", name: "Vibrant", colors: ["#FF6B6B", "#4ECDC4", "#45B7D1"] },
@@ -26,6 +30,11 @@ const colorSchemes = [
 ];
 const Generate = () => {
   const { id } = useParams();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const { isLoggedIn } = useAuth();
+
   const [title, setTitle] = useState("");
   const [details, setdetails] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
@@ -35,27 +44,60 @@ const Generate = () => {
   const [style, setStyle] = useState("Bold & Graphic");
   const [styledropDown, setStyleDropDown] = useState(false);
 
-  const handleGenerate = async () => {};
+  const handleGenerate = async () => {
+    if (!isLoggedIn) return toast.error("please login");
+
+    if (!title.trim()) return toast.error("please provide title");
+    setloading(true);
+
+    const api_payload = {
+      title,
+      prompt: details,
+      style,
+      aspect_ratio: aspectRatio,
+      color_scheme: colorScheme,
+      text_overlay: true,
+    };
+
+    const { data } = await api.post("api/thumbnail/v1/generate", api_payload);
+    if (data.thumbnail) {
+      navigate("/generate/" + data.thumbnail._id);
+      toast.success(data.message);
+    }
+  };
 
   const fetchThumbnail = async () => {
-    if (id) {
-      const dummy = dummyThumbnails.find((thumbnail) => thumbnail._id === id);
-      setThumbnail(dummy);
-      setdetails(dummy.user_prompt);
-      setTitle(dummy.title);
-      setColorScheme(dummy.color_scheme);
-      setAspectRatio(dummy.aspect_ratio);
-      setStyle(dummy.style);
-      setloading(false);
+    try {
+      const { data } = await api.get(`/api/user/v1/thumbnails/${id}`);
+      setThumbnail(data.thumbnail);
+      setloading(!data?.thumbnail?.image_url);
+      setdetails(data?.thumbnail?.user_prompt);
+      setTitle(data?.thumbnail?.title);
+      setColorScheme(data?.thumbnail?.color_scheme);
+      setAspectRatio(data?.thumbnail?.aspect_ratio);
+      setStyle(data?.thumbnail?.style);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 
   useEffect(() => {
-    if (id) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isLoggedIn && id) {
       fetchThumbnail();
     }
-  }, [id]);
+    if (id && loading && isLoggedIn) {
+      const interval = setInterval(() => {
+        fetchThumbnail();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [id, loading, isLoggedIn]);
+
+  useEffect(() => {
+    if (!id && thumbnail) {
+      setThumbnail(null);
+    }
+  }, [pathname]);
 
   return (
     <div>

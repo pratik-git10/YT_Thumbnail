@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { dummyThumbnails } from "../assets/assets/assets";
-import {
-  ArrowUpRight,
-  DownloadIcon,
-  Loader2Icon,
-  Trash2Icon,
-} from "lucide-react";
+import { ArrowUpRight, DownloadIcon, Trash2Icon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import api from "../configs/api";
+import toast from "react-hot-toast";
 
 const MyGeneration = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
   const aspectratioClassMap = {
     "16:9": "aspect-video",
     "1:1": "aspect-sqaure",
@@ -19,22 +18,44 @@ const MyGeneration = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchThumbnails = async () => {
-    setthumbnails(dummyThumbnails);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const { data } = await api.get("/api/user/v1/thumbnails");
+      setthumbnails(data.thumbnails || []);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handledownload = (image_url) => {
-    window.open(image_url, "_blank");
+    const link = document.createElement("a");
+    link.href = image_url.replace("/upload", "/uplaod/fl_attachment");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
   const handleDelete = async (id) => {
-    console.log(id);
+    try {
+      const confirm = window.confirm(
+        "are you sure you want to delete this thumbnail",
+      );
+      if (!confirm) return;
+      const { data } = await api.delete(`/api/thumbnail/v1/delete/${id}`);
+      toast.success(data.message);
+      setthumbnails(thumbnails.filter((t) => t._id !== id));
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchThumbnails();
-  }, []);
+    if (isLoggedIn) {
+      fetchThumbnails();
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>
