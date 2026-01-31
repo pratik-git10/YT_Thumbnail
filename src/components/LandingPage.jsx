@@ -1,361 +1,369 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Sparkles,
-  Zap,
-  TrendingUp,
-  Clock,
-  Star,
-  ArrowRight,
-  Play,
   Check,
+  PlayCircle,
+  Zap,
+  BarChart3,
+  Image as ImageIcon,
+  Users,
+  ChevronDown,
+  ArrowRight,
+  Youtube,
+  Facebook,
+  Twitch,
+  Instagram,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export default function ThumbnailLandingPage() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeFeature, setActiveFeature] = useState(0);
+// 2. Hero Component
+const Hero = () => {
+  return (
+    <section className="pt-32 pb-20 overflow-hidden bg-[#18181b]">
+      <div className="container mx-auto px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-3 py-1 mb-8 text-xs font-semibold tracking-wide text-blue-700 uppercase bg-blue-50 rounded-full">
+          <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
+          v2.0 is live: Now with A/B Testing
+        </motion.div>
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsVisible(true);
-  }, []);
+        <h1 className="max-w-4xl mx-auto mb-6 text-white text-5xl font-extrabold tracking-tight md:text-7xl">
+          Generate viral thumbnails <br className="hidden md:block" />
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-pink-800">
+            without opening Photoshop.
+          </span>
+        </h1>
 
+        <p className="max-w-2xl mx-auto mb-10 text-lg text-neutral-500 leading-relaxed">
+          The AI trained on 1M+ viral videos. Increase your CTR by up to 200%
+          with thumbnails optimized for the YouTube algorithm.
+        </p>
+
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row mb-16">
+          <Link
+            to={"/generate"}
+            className="flex items-center justify-center gap-2 px-8 py-4 text-white bg-slate-900 rounded-xl hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 shadow-md shadow-slate-200">
+            Start Creating for Free
+            <ArrowRight size={18} />
+          </Link>
+          <button className="flex items-center justify-center gap-2 px-8 py-4 text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all">
+            <PlayCircle size={18} />
+            View Demo
+          </button>
+        </div>
+
+        {/* Hero Visual */}
+        <div className="relative max-w-5xl mx-auto mt-12">
+          <div className="absolute -inset-1 bg-linear-to-r from-blue-100 to-indigo-100 rounded-2xl blur opacity-30"></div>
+          <div className="relative bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-800 aspect-video flex items-center justify-center">
+            {/* Simulation of Interface */}
+            <div className="text-slate-500 text-sm">
+              [Application Interface Demo Video Placeholder]
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// 3. Social Proof Component
+const brands = [
+  { name: "YouTube", logo: <Youtube size={25} /> },
+  { name: "Twitch", logo: <Twitch size={25} /> },
+  { name: "Meta", logo: <Facebook size={25} /> },
+  { name: "Instagram", logo: <Instagram size={25} /> },
+];
+
+const SocialProof = () => {
+  return (
+    <section className="py-10 border-y border-neutral-700">
+      <div className="container mx-auto px-6 text-center">
+        <p className="text-sm font-semibold mb-6">
+          TRUSTED BY 10,000+ CREATORS FROM
+        </p>
+
+        <div className="marquee">
+          <div className="marquee-track opacity-60 grayscale">
+            {/* Repeat THREE TIMES */}
+            {[...brands, ...brands, ...brands].map((brand, i) => (
+              <span key={i} className="marquee-item text-slate-400">
+                {brand.logo}
+                {brand.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// 4. Features Grid Component
+const Features = () => {
   const features = [
     {
-      icon: <Zap className="w-6 h-6" />,
-      title: "AI-Powered Generation",
-      description:
-        "Create stunning thumbnails in seconds with advanced AI that understands YouTube trends",
+      title: "Face Zoom & Enhance",
+      desc: "Our AI automatically detects faces and enhances emotions to drive clicks.",
+      icon: <Users className="text-blue-600" size={24} />,
     },
     {
-      icon: <TrendingUp className="w-6 h-6" />,
-      title: "Click-Through Optimization",
-      description:
-        "Thumbnails designed to maximize engagement and drive more views to your content",
+      title: "Legibility Check",
+      desc: "Instant contrast analysis ensures your text pops on mobile screens.",
+      icon: <Zap className="text-amber-500" size={24} />,
     },
     {
-      icon: <Clock className="w-6 h-6" />,
-      title: "Lightning Fast",
-      description:
-        "Generate professional thumbnails 10x faster than traditional design tools",
-    },
-  ];
-
-  const stats = [
-    { number: "2M+", label: "Thumbnails Created" },
-    { number: "150K+", label: "Active Creators" },
-    { number: "45%", label: "Avg. CTR Increase" },
-    { number: "< 30s", label: "Average Creation Time" },
-  ];
-
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "$9",
-      period: "/month",
-      features: [
-        "50 thumbnails per month",
-        "AI-powered generation",
-        "1080p resolution",
-        "Basic templates",
-        "Standard support",
-      ],
-      popular: false,
+      title: "Trend Analysis",
+      desc: "Real-time suggestion engine based on what's trending in your niche.",
+      icon: <BarChart3 className="text-emerald-500" size={24} />,
     },
     {
-      name: "Pro",
-      price: "$29",
-      period: "/month",
-      features: [
-        "Unlimited thumbnails",
-        "Advanced AI models",
-        "4K resolution",
-        "Premium templates",
-        "Custom branding",
-        "Priority support",
-        "A/B testing tools",
-      ],
-      popular: true,
-    },
-    {
-      name: "Enterprise",
-      price: "Custom",
-      period: "",
-      features: [
-        "Everything in Pro",
-        "Dedicated account manager",
-        "Custom AI training",
-        "API access",
-        "White-label options",
-        "Team collaboration",
-        "SLA guarantee",
-      ],
-      popular: false,
+      title: "Brand Consistency",
+      desc: "Lock your fonts, colors, and assets. The AI builds around your brand kit.",
+      icon: <ImageIcon className="text-purple-500" size={24} />,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-950 via-purple-950 to-slate-950 text-white overflow-hidden">
-      {/* Animated background elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+    <section id="features" className="py-24 bg-[#18181b]">
+      <div className="container mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Optimized for human psychology
+          </h2>
+          <p className="text-slate-600 text-lg">
+            We don't just generate images. We generate clicks based on 5 years
+            of CTR data.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((f, i) => (
+            <div
+              key={i}
+              className="p-6 rounded-2xl border border-slate-100 bg-neutral-900 hover:border-blue-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
+              <div className="w-12 h-12 rounded-lg bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-blue-50 transition-colors">
+                {f.icon}
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">{f.title}</h3>
+              <p className="text-slate-400 leading-relaxed">{f.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
+    </section>
+  );
+};
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div
-            className={`text-center transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full mb-8 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 text-yellow-400" />
-              <span className="text-sm font-medium">
-                Used by 150,000+ creators worldwide
+// 5. Pricing Component
+const Pricing = () => {
+  const [isAnnual, setIsAnnual] = useState(true);
+
+  return (
+    <section id="pricing" className="py-24 bg-[#18181b]">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-white mb-6">
+            Simple, transparent pricing
+          </h2>
+
+          {/* Toggle */}
+          <div className="flex items-center justify-center gap-4">
+            <span
+              className={` font-medium ${!isAnnual ? " text-lg" : "text-slate-500"}`}>
+              Monthly
+            </span>
+            <button
+              onClick={() => setIsAnnual(!isAnnual)}
+              className="relative w-14 h-8 bg-slate-500 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              aria-label="Toggle pricing period">
+              <motion.div
+                className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-sm"
+                animate={{ x: isAnnual ? 24 : 0 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              />
+            </button>
+            <span
+              className={`font-medium ${isAnnual ? "text-lg" : "text-slate-500"}`}>
+              Yearly{" "}
+              <span className="text-green-600 text-xs font-bold bg-green-100 px-2 py-0.5 rounded-full ml-1">
+                -20%
               </span>
-            </div>
+            </span>
+          </div>
+        </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-6 bg-linear-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
-              Turn Clicks Into Views
-              <br />
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-yellow-400 via-pink-500 to-purple-500">
-                With AI Thumbnails
-              </span>
-            </h1>
-
-            <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
-              Create scroll-stopping YouTube thumbnails in seconds. Our AI
-              analyzes millions of high-performing thumbnails to make yours
-              irresistible.
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Starter Plan */}
+          <div className="p-8 bg-white rounded-2xl border border-slate-200">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              Creator
+            </h3>
+            <p className="text-slate-500 text-sm mb-6">
+              For hobbyists and new channels.
             </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <button className="group px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/50 transform hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                Start Creating Free
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="group px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
-                <Play className="w-5 h-5" />
-                Watch Demo
-              </button>
+            <div className="mb-6">
+              <span className="text-4xl font-bold text-slate-900">
+                ${isAnnual ? "12" : "15"}
+              </span>
+              <span className="text-slate-500">/mo</span>
             </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="transition-all duration-500 hover:scale-110"
-                  style={{ animationDelay: `${index * 100}ms` }}>
-                  <div className="text-4xl sm:text-5xl font-black bg-linear-to-r from-yellow-400 to-pink-500 bg-clip-text text-transparent mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-400 text-sm">{stat.label}</div>
-                </div>
+            <ul className="space-y-4 mb-8">
+              {[
+                "50 Thumbnails/mo",
+                "Basic Templates",
+                "Standard Resolution",
+                "Personal License",
+              ].map((feat, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-sm text-slate-600">
+                  <Check size={16} className="text-blue-600" /> {feat}
+                </li>
               ))}
-            </div>
+            </ul>
+            <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
+              Start Free Trial
+            </button>
           </div>
-        </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-black mb-4">
-              Everything You Need to{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400">
-                Dominate YouTube
+          {/* Pro Plan (Highlighted) */}
+          <div className="p-8 bg-slate-900 rounded-2xl shadow-xl relative transform md:-translate-y-4">
+            <div className="absolute top-0 right-0 left-0 -mt-4 flex justify-center">
+              <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                Most Popular
               </span>
-            </h2>
-            <p className="text-xl text-gray-400">
-              Powerful features that make thumbnail creation effortless
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                onMouseEnter={() => setActiveFeature(index)}
-                className={`group p-8 rounded-2xl border transition-all duration-500 cursor-pointer ${
-                  activeFeature === index
-                    ? "bg-linear-to-br from-purple-500/20 to-pink-500/20 border-purple-500/50 scale-105"
-                    : "bg-white/5 border-white/10 hover:border-purple-500/30"
-                }`}>
-                <div
-                  className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-500 ${
-                    activeFeature === index
-                      ? "bg-linear-to-br from-purple-500 to-pink-500 shadow-lg shadow-purple-500/50"
-                      : "bg-white/10"
-                  }`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Showcase Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-black mb-4">
-              See The{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-yellow-400 to-pink-500">
-                Magic
-              </span>{" "}
-              In Action
-            </h2>
-            <p className="text-xl text-gray-400">
-              Real thumbnails created by our AI in under 30 seconds
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div
-                key={item}
-                className="group relative aspect-video rounded-xl overflow-hidden border border-white/10 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 cursor-pointer">
-                <div className="absolute inset-0 bg-linear-to-br from-purple-600/80 to-pink-600/80 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                      <Star className="w-8 h-8" />
-                    </div>
-                    <p className="font-bold">Thumbnail {item}</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button className="px-6 py-3 bg-white text-black rounded-lg font-bold">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-black mb-4">
-              Simple,{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400">
-                Transparent
-              </span>{" "}
-              Pricing
-            </h2>
-            <p className="text-xl text-gray-400">
-              Choose the perfect plan for your channel
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {pricingPlans.map((plan, index) => (
-              <div
-                key={index}
-                className={`relative p-8 rounded-2xl border transition-all duration-500 hover:scale-105 ${
-                  plan.popular
-                    ? "bg-linear-to-br from-purple-500/20 to-pink-500/20 border-purple-500 shadow-2xl shadow-purple-500/30"
-                    : "bg-white/5 border-white/10"
-                }`}>
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="px-4 py-1 bg-linear-to-r from-purple-500 to-pink-500 rounded-full text-sm font-bold">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-
-                <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <div className="mb-6">
-                  <span className="text-5xl font-black">{plan.price}</span>
-                  <span className="text-gray-400">{plan.period}</span>
-                </div>
-
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-green-400 shrink-0 mt-1" />
-                      <span className="text-gray-300">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <button
-                  className={`w-full py-4 rounded-xl font-bold transition-all duration-300 ${
-                    plan.popular
-                      ? "bg-linear-to-r from-purple-600 to-pink-600 hover:shadow-2xl hover:shadow-purple-500/50"
-                      : "bg-white/10 hover:bg-white/20"
-                  }`}>
-                  Get Started
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-3xl bg-linear-to-r from-purple-600 to-pink-600 overflow-hidden">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
-
-            <div className="relative text-center">
-              <h2 className="text-4xl sm:text-5xl font-black mb-6">
-                Ready to 10x Your Click-Through Rate?
-              </h2>
-              <p className="text-xl mb-8 text-white/90">
-                Join 150,000+ creators who've transformed their channels with
-                AI-powered thumbnails
-              </p>
-              <button className="px-10 py-5 bg-white text-purple-600 rounded-xl font-black text-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                Start Free Trial - No Credit Card Required
-              </button>
-              <p className="mt-4 text-sm text-white/70">
-                7-day free trial • Cancel anytime • No commitment
-              </p>
             </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Pro</h3>
+            <p className="text-slate-400 text-sm mb-6">
+              For growing channels & serious creators.
+            </p>
+            <div className="mb-6">
+              <span className="text-4xl font-bold text-white">
+                ${isAnnual ? "29" : "39"}
+              </span>
+              <span className="text-slate-400">/mo</span>
+            </div>
+            <ul className="space-y-4 mb-8">
+              {[
+                "Unlimited Thumbnails",
+                "Premium Assets",
+                "A/B Testing Tools",
+                "4K Export",
+                "Brand Kit",
+              ].map((feat, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-sm text-slate-300">
+                  <Check size={16} className="text-blue-400" /> {feat}
+                </li>
+              ))}
+            </ul>
+            <button className="w-full py-3 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-lg shadow-blue-900/20">
+              Get Started
+            </button>
+          </div>
+
+          {/* Agency Plan */}
+          <div className="p-8 bg-white rounded-2xl border border-slate-200">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">
+              Agency
+            </h3>
+            <p className="text-slate-500 text-sm mb-6">
+              For production teams and managers.
+            </p>
+            <div className="mb-6">
+              <span className="text-4xl font-bold text-slate-900">
+                ${isAnnual ? "79" : "99"}
+              </span>
+              <span className="text-slate-500">/mo</span>
+            </div>
+            <ul className="space-y-4 mb-8">
+              {[
+                "Multi-seat Access",
+                "API Access",
+                "Dedicated Support",
+                "Custom Models",
+                "Commercial License",
+              ].map((feat, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-sm text-slate-600">
+                  <Check size={16} className="text-blue-600" /> {feat}
+                </li>
+              ))}
+            </ul>
+            <button className="w-full py-3 text-sm font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200">
+              Contact Sales
+            </button>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes blob {
-          0%,
-          100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
+// 6. FAQ Component
+const FAQ = () => {
+  const faqs = [
+    {
+      q: "Can I use my own images?",
+      a: "Yes. You can upload your own face or product shots. The AI will seamlessly blend them into the generated backgrounds.",
+    },
+    {
+      q: "What happens to my unused credits?",
+      a: "On the Pro plan, unused credits roll over to the next month for up to 90 days.",
+    },
+    {
+      q: "Is this copyright free?",
+      a: "Yes. All assets generated are royalty-free and safe for monetization on YouTube.",
+    },
+  ];
 
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
+  return (
+    <section className="py-24 bg-[#18181b]">
+      <div className="container mx-auto px-6 max-w-3xl">
+        <h2 className="text-3xl font-bold text-center mb-12">
+          Frequently Asked Questions
+        </h2>
+        <div className="space-y-4">
+          {faqs.map((faq, i) => (
+            <div
+              key={i}
+              className="border border-neutral-600 rounded-xl overflow-hidden">
+              <details className="group">
+                <summary className="flex justify-between items-center p-6 cursor-pointer list-none bg-black/40  transition-colors">
+                  <span className="font-medium ">{faq.q}</span>
+                  <span className="transition group-open:rotate-180">
+                    <ChevronDown size={20} className="text-slate-500" />
+                  </span>
+                </summary>
+                <div className="px-6 pb-6 text-zinc-300 leading-relaxed bg-black/40">
+                  {faq.a}
+                </div>
+              </details>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style>
+const LandingPage = () => {
+  return (
+    <div className="min-h-screen bg-[#18181b] font-sans selection:bg-blue-100 selection:text-blue-900">
+      <main>
+        <Hero />
+        <SocialProof />
+        <Features />
+        <Pricing />
+        <FAQ />
+      </main>
     </div>
   );
-}
+};
+
+export default LandingPage;

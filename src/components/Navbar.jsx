@@ -6,7 +6,7 @@ import { useAuth } from "../context/AuthContext";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Generate", href: "/generate" },
-  { name: "My Generation", href: "/my-generation", isProtected: true },
+  { name: "My Generation", href: "/my-generation", isProtected: false },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -29,11 +29,15 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ================= NAVBAR ================= */}
       <nav className="flex justify-between items-center px-4 m-4 max-w-400 mx-auto">
         {/* Logo */}
-        <Link to="/" className="text-xl md:text-3xl font-bold text-pink-700">
-          ThumbnailYT
+        <Link
+          to="/"
+          className="flex gap-2 items-center justify-center text-xl md:text-3xl font-bold ">
+          <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-white font-bold text-sm">
+            T
+          </div>
+          <h1 className=""> ThumbGen.AI</h1>
         </Link>
 
         {/* Desktop Nav */}
@@ -85,7 +89,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* ================= MOBILE MENU ================= */}
+      {/* Mobile Nav */}
       <div
         className={`fixed inset-0 z-50 bg-black/40 backdrop-blur flex flex-col items-center justify-center gap-8 text-lg md:hidden transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full"

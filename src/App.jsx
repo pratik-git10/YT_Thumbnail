@@ -9,6 +9,7 @@ import ContactPage from "./pages/Contact";
 import Generate from "./pages/generate";
 import MyGeneration from "./pages/MyGeneration";
 import Login from "./components/Login";
+import YtPreview from "./pages/YtPreview";
 
 function App() {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/my-generation" element={<MyGeneration />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/preview" element={<YtPreview />} />
       </Routes>
       <Footer />
     </>

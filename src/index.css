@@ -7,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #18181b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,4 +30,43 @@ body {
 
 button {
   cursor: pointer;
+}
+
+/* ===============================
+   PERFECT CONTINUOUS MARQUEE
+================================ */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 10s linear infinite;
+  animation-direction: reverse;
+}
+
+.marquee-item {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 2.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
 }
