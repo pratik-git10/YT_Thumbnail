@@ -32,9 +32,8 @@ const Navbar = () => {
       {/* ================= NAVBAR ================= */}
       <nav className="flex justify-between items-center px-4 m-4 max-w-400 mx-auto">
         {/* Logo */}
-        <Link to="/" className="text-xl md:text-3xl font-bold">
-          Thumbnail<span className="text-amber-400">AI</span>
-          <p className="text-xs text-right">powered by trackcue</p>
+        <Link to="/" className="text-xl md:text-3xl font-bold text-pink-700">
+          ThumbnailYT
         </Link>
 
         {/* Desktop Nav */}
@@ -73,7 +72,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => navigate("/login")}
-                className="hidden md:block px-6 py-2.5 bg-neutral-600 hover:bg-pink-700 rounded-md transition">
+                className="hidden md:block px-6 py-2.5 bg-pink-600 hover:bg-pink-700 rounded-md transition ease-in-out duration-200 active:scale-95">
                 Get Started
               </button>
             )}
