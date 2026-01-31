@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { yt_html } from "../assets/assets/assets.js";
+import { yt_html } from "../components/YtpreviewComponent";
 
 const YtPreview = () => {
   const [searchparams] = useSearchParams();
