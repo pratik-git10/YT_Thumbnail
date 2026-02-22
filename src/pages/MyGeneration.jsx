@@ -31,7 +31,7 @@ const MyGeneration = () => {
 
   const handledownload = (image_url) => {
     const link = document.createElement("a");
-    link.href = image_url.replace("/upload", "/uplaod/fl_attachment");
+    link.href = image_url.replace("/upload", "/upload/fl_attachment");
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -59,7 +59,7 @@ const MyGeneration = () => {
 
   return (
     <div>
-      <div className="mt-32 min-h-screen px-6 md:px-16 lg:px-24 xl:px-32">
+      <div className="mt-32 min-h-screen px-6 md:px-16 lg:px-24 xl:px-32 mb-10">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-zinc-200 ">My Generations</h1>
           <p className="text-sm text-zinc-200 mt-1">
@@ -90,7 +90,7 @@ const MyGeneration = () => {
         )}
 
         {!loading && thumbnails.length > 0 && (
-          <div className="columns-1 sm:columns-2 lg:columns-3 2xl:columns-4 gap-8">
+          <div className="columns-1 sm:columns-2 lg:columns-3  gap-8">
             {thumbnails.map((thumb) => {
               const aspectClass =
                 aspectratioClassMap[thumb.aspect_ratio || "16:9"];
@@ -98,7 +98,7 @@ const MyGeneration = () => {
                 <div
                   key={thumb._id}
                   onClick={() => navigate(`/generate/${thumb._id}`)}
-                  className="mb-8 group relative cursor-pointer rounded-2xl bg-white/6 border border-white/10 transition shadow-xl break-inside-avoid">
+                  className="mb-8 group relative cursor-pointer rounded-2xl bg-white/6 border border-white/10 transition shadow-xl break-inside-avoid ">
                   {/* img */}
                   <div
                     className={`relative overflow-hidden rounded-t-2xl ${aspectClass} bg-black`}>
